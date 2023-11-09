@@ -9,6 +9,8 @@ var usersRouter = require('./routes/users');
 var houseRouter = require('./routes/house');
 var boardRouter = require('./routes/board');
 var chooseRouter = require('./routes/choose');
+var house = require("./models/house");
+var resourceRouter=require('./routes/resource');
 
 var app = express();
 
@@ -27,6 +29,7 @@ app.use('/users', usersRouter);
 app.use('/house', houseRouter);
 app.use('/board', boardRouter);
 app.use('/choose', chooseRouter);
+app.use('/resource',resourceRouter);
 
 
 // catch 404 and forward to error handler
@@ -44,5 +47,43 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+require('dotenv').config();
+const connectionString =
+process.env.MONGO_CON
+mongoose = require('mongoose');
+mongoose.connect(connectionString);
+
+
+async function recreateDB(){
+  // Delete everything
+  await house.deleteMany();
+  let instance1 = new 
+  house({houseName: "villa", price: 101.99, description: "5 bed rooms"});
+  await instance1.save();
+  //instance1.save( function(err,doc) {
+  //if(err) return console.error(err);
+  console.log("First object saved")
+  //});
+ 
+  let instance2 = new 
+  house({ houseName: "apartments", price: 190.99, description: "4 bed rooms" });
+  await instance2.save();
+  //instance1.save( function(err,doc) {
+  //if(err) return console.error(err);
+  console.log("second object saved")
+  //});
+ 
+  let instance3 = new 
+  house({ houseName: "Group house", price: 250.49, description: "3 bed rooms" });
+  await instance3.save();
+  //instance1.save( function(err,doc) {
+  //if(err) return console.error(err);
+  console.log("Third object saved")
+  //});
+ }
+ let reseed = true;
+ if (reseed) { recreateDB();}
+
 
 module.exports = app;
