@@ -4,9 +4,17 @@ exports.house_list = function(req, res) {
  res.send('NOT IMPLEMENTED: house list');
 };
 // for a specific Costume.
-exports.house_detail = function(req, res) {
- res.send('NOT IMPLEMENTED: house detail: ' + req.params.id);
-};
+// for a specific Costume.
+exports.house_detail = async function(req, res) {
+    console.log("detail" + req.params.id)
+    try {
+    result = await house.findById( req.params.id)
+    res.send(result)
+    } catch (error) {
+    res.status(500)
+    res.send(`{"error": document for id ${req.params.id} not found`);
+    }
+   };
 // Handle Costume create on POST.
 exports.house_create_post = function(req, res) {
  res.send('NOT IMPLEMENTED: house create POST');
@@ -16,8 +24,27 @@ exports.house_delete = function(req, res) {
  res.send('NOT IMPLEMENTED: house delete DELETE ' + req.params.id);
 };
 // Handle Costume update form on PUT.
-exports.house_update_put = function(req, res) {
- res.send('NOT IMPLEMENTED: house update PUT' + req.params.id);
+// Handle Costume update form on PUT.
+exports.house_update_put = async function(req, res) {
+ console.log(`update on id ${req.params.id} with body
+${JSON.stringify(req.body)}`)
+ try {
+ let toUpdate = await house.findById( req.params.id)
+ // Do updates of properties
+ if(req.body.house_type)
+ toUpdate.houseName = req.body.houseName;
+ if(req.body.price) toUpdate.price = req.body.price;
+ if(req.body.description) toUpdate.description = req.body.description;
+ if(req.body.checkboxsale) toUpdate.sale = true;
+else toUpdate.same = false;
+ let result = await toUpdate.save();
+ console.log("Sucess " + result)
+ res.send(result)
+ } catch (err) {
+ res.status(500)
+ res.send(`{"error": ${err}: Update for id ${req.params.id}
+failed`);
+ }
 };
 
 // List of all Costumes
