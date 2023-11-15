@@ -41,7 +41,7 @@ ${JSON.stringify(req.body)}`)
     try {
         let toUpdate = await house.findById(req.params.id)
         // Do updates of properties
-        if (req.body.house_type)
+        if (req.body.houseName)
             toUpdate.houseName = req.body.houseName;
         if (req.body.price) toUpdate.price = req.body.price;
         if (req.body.description) toUpdate.description = req.body.description;
@@ -128,3 +128,21 @@ exports.house_create_Page = function (req, res) {
         res.send(`{'error': '${err}'}`);
     }
 };
+// Handle building the view for updating a house.
+// query provides the id
+exports.house_update_Page = async function (req, res) {
+    console.log("update view for item " + req.query.id)
+    try {
+        let result = await house.findById(req.query.id)
+        console.log('result',result);
+        res.render('houseupdate', { title: 'house Update', toShow: result });
+    }
+    catch (err) {
+        res.status(500)
+        res.send(`{'error': '${err}'}`);
+    }
+};
+
+
+
+
