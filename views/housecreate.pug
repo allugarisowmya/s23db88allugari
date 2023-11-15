@@ -1,0 +1,37 @@
+extends layout
+block content
+  h1= title
+  form(id='houseForm', action="/resource/house", method="POST")
+    div.form-group
+      label.houseAttr(for='houseName') house Name
+      input#houseName(type='text', name='houseName')
+    div.form-group
+      label.houseAttr(for='description') description
+      input#description(type='text', name='description')
+    div.form-group
+      label.houseAttr(for='price') price
+      input#houseCost(type='number',step='any', name='price')
+    input(type="submit")
+  script.
+    document.forms['houseForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      // TODO do something here to show user that form is being submitted
+      fetch(event.target.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(event.target))
+      }).then((resp) => {
+        if(resp.ok){
+            alert ("house Created Successfully")
+            document.getElementById('houseForm').reset()
+        }
+        else {
+            alert (" File to Create house")
+        }
+      }).then((body) => {
+       console.log (body)
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Save failed " + error )
+      });
+    });
