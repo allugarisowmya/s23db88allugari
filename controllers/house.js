@@ -1,79 +1,89 @@
 var house = require('../models/house');
 // List of all Costumes
-exports.house_list = function(req, res) {
- res.send('NOT IMPLEMENTED: house list');
+exports.house_list = function (req, res) {
+    res.send('NOT IMPLEMENTED: house list');
 };
 // for a specific Costume.
 // for a specific Costume.
-exports.house_detail = async function(req, res) {
+exports.house_detail = async function (req, res) {
     console.log("detail" + req.params.id)
     try {
-    result = await house.findById( req.params.id)
-    res.send(result)
+        result = await house.findById(req.params.id)
+        res.send(result)
     } catch (error) {
-    res.status(500)
-    res.send(`{"error": document for id ${req.params.id} not found`);
+        res.status(500)
+        res.send(`{"error": document for id ${req.params.id} not found`);
     }
-   };
+};
 // Handle Costume create on POST.
-exports.house_create_post = function(req, res) {
- res.send('NOT IMPLEMENTED: house create POST');
+exports.house_create_post = function (req, res) {
+    res.send('NOT IMPLEMENTED: house create POST');
 };
 // Handle Costume delete form on DELETE.
-exports.house_delete = function(req, res) {
- res.send('NOT IMPLEMENTED: house delete DELETE ' + req.params.id);
+// Handle Costume delete on DELETE.
+exports.house_delete = async function (req, res) {
+    console.log("delete " + req.params.id)
+    try {
+        result = await house.findByIdAndDelete(req.params.id)
+        console.log("Removed " + result)
+        res.send(result)
+    } catch (err) {
+        res.status(500)
+        res.send(`{"error": Error deleting ${err}}`);
+    }
 };
+
 // Handle Costume update form on PUT.
 // Handle Costume update form on PUT.
-exports.house_update_put = async function(req, res) {
- console.log(`update on id ${req.params.id} with body
+exports.house_update_put = async function (req, res) {
+    console.log(`update on id ${req.params.id} with body
 ${JSON.stringify(req.body)}`)
- try {
- let toUpdate = await house.findById( req.params.id)
- // Do updates of properties
- if(req.body.house_type)
- toUpdate.houseName = req.body.houseName;
- if(req.body.price) toUpdate.price = req.body.price;
- if(req.body.description) toUpdate.description = req.body.description;
- if(req.body.checkboxsale) toUpdate.sale = true;
-else toUpdate.same = false;
- let result = await toUpdate.save();
- console.log("Sucess " + result)
- res.send(result)
- } catch (err) {
- res.status(500)
- res.send(`{"error": ${err}: Update for id ${req.params.id}
+    try {
+        let toUpdate = await house.findById(req.params.id)
+        // Do updates of properties
+        if (req.body.house_type)
+            toUpdate.houseName = req.body.houseName;
+        if (req.body.price) toUpdate.price = req.body.price;
+        if (req.body.description) toUpdate.description = req.body.description;
+        if (req.body.checkboxsale) toUpdate.sale = true;
+        else toUpdate.same = false;
+        let result = await toUpdate.save();
+        console.log("Sucess " + result)
+        res.send(result)
+    } catch (err) {
+        res.status(500)
+        res.send(`{"error": ${err}: Update for id ${req.params.id}
 failed`);
- }
+    }
 };
 
 // List of all Costumes
-exports.house_list = async function(req, res) {
-    try{
-    thehouse = await house.find();
-    res.send(thehouse);
+exports.house_list = async function (req, res) {
+    try {
+        thehouse = await house.find();
+        res.send(thehouse);
     }
-    catch(err){
-    res.status(500);
-    res.send(`{"error": ${err}}`);
+    catch (err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
     }
-   };
+};
 
-   // VIEWS
+// VIEWS
 // Handle a show all view
-exports.house_view_all_Page = async function(req, res) {
-    try{
-    thehouse = await house.find();
-    res.render('house', { title: 'house Search Results', results: thehouse });
+exports.house_view_all_Page = async function (req, res) {
+    try {
+        thehouse = await house.find();
+        res.render('house', { title: 'house Search Results', results: thehouse });
     }
-    catch(err){
-    res.status(500);
-    res.send(`{"error": ${err}}`);
+    catch (err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
     }
-   };
+};
 
-   // Handle Costume create on POST.
-exports.house_create_post = async function(req, res) {
+// Handle Costume create on POST.
+exports.house_create_post = async function (req, res) {
     console.log(req.body)
     let document = new house();
     // We are looking for a body, since POST does not have query parameters.
@@ -83,12 +93,12 @@ exports.house_create_post = async function(req, res) {
     document.houseName = req.body.houseName;
     document.price = req.body.price;
     document.description = req.body.description;
-    try{
-    let result = await document.save();
-    res.send(result);
+    try {
+        let result = await document.save();
+        res.send(result);
     }
-    catch(err){
-    res.status(500);
-    res.send(`{"error": ${err}}`);
+    catch (err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
     }
-   };
+};
