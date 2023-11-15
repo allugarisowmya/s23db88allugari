@@ -1,0 +1,20 @@
+extends layout
+block content
+  h1= title
+  - let houseid = toShow._id
+  - let houseName = toShow.houseName
+  - let houseprice = toShow.price
+  - let housedescription  = toShow.description
+    div
+      div.row
+        div(class='houseAttr mr-3') house ID:
+        div #{houseid}
+      div.row
+        div(class='houseAttr mr-3') house Name:
+        div #{houseName}
+      div.row
+        div(class='houseAttr mr-3') price:
+        div #{houseprice}
+      div.row
+        div(class='houseAttr mr-3') description:
+        div #{housedescription}
