@@ -1,20 +1,27 @@
 extends layout
+
 block content
-  h1= title
-  - let houseid = toShow._id
-  - let houseName = toShow.houseName
-  - let houseprice = toShow.price
-  - let housedescription  = toShow.description
-    div
-      div.row
-        div(class='houseAttr mr-3') house ID:
-        div #{houseid}
-      div.row
-        div(class='houseAttr mr-3') house Name:
-        div #{houseName}
-      div.row
-        div(class='houseAttr mr-3') price:
-        div #{houseprice}
-      div.row
-        div(class='houseAttr mr-3') description:
-        div #{housedescription}
+    h1.text-center= title
+
+    if (toShow == null)
+        h2 No instance to delete
+    else
+        // Use a card layout for better styling and centering
+        .card.mx-auto.mt-5
+            .card-body.text-center
+                div.row
+                    div(class='houseAttr') house ID:
+                    div #{toShow._id}
+                div.row
+                    div(class='houseAttr') houseName:
+                    div #{toShow.houseName}
+                div.row
+                    div(class='houseAttr') price:
+                    div #{toShow.price}
+                div.row
+                    div(class='houseAttr') description:
+                    div #{toShow.description}
+
+    .row.mt-3
+        .col.text-center
+            a.btn.btn-primary(href='/house') Back to house List

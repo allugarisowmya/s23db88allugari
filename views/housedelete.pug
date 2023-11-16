@@ -1,50 +1,49 @@
 extends layout
 block content
-  h1= title
-  if (toShow == null)
-    h2 No instance to delete
-  else
-    - let houseid  = toShow._id
-    - let houseName = toShow.houseName
-    - let price = toShow.price
-    - let description = toShow.description
-    - let actionid = "/resource/house/" + houseid
-    script let actionid = "#{actionid}"
-    div
-      div.row
-        div(class='houseAttr mr-3') house ID :
-        div #{houseid}
-      div.row
-        div(class='houseAttr mr-3') houseName :
-        div #{houseName}
-      div.row
-        div(class='houseAttr mr-3') description :
-        div #{description}
-      div.row
-        div(class='houseAttr mr-3') houseprice :
-        div #{price}
-    button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
-    button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
-  script.
-    function cancel() {
-      // Go back to the home page for the house collection
-      window.location.href='/house'
-    }
-  script.
-    function deleteOnid() {
-      console.log("starting delete")
-      // delete first
-      fetch(actionid, {
-        method: 'DELETE'
-      }).then((resp) => {
-        return resp.json(); // or resp.text() or whatever the server sends
-      }).then((body) => {
-        alert("Delete succeded")
-        window.location.href='/house'
-        // TODO handle body
-      }).catch((error) => {
-        // TODO handle error
-        alert("Delete failed " + error )
-      });
-    }
- 
+    h1= title
+    if (toShow == null)
+        h2 No instance to delete
+    else
+        - let houseid  = toShow._id
+        - let houseName = toShow.houseName
+        - let price = toShow.price
+        - let description = toShow.description
+        - let actionid = "/resource/house/" + houseid
+        script let actionid = "#{actionid}"
+        div
+            div.row
+                div(class='houseAttr mr-3') house ID :
+                div #{houseid}
+            div.row
+                div(class='houseAttr mr-3') houseName :
+                div #{houseName}
+            div.row
+                div(class='houseAttr mr-3') description :
+                div #{description}
+            div.row
+                div(class='houseAttr mr-3') houseprice :
+                div #{price}
+        button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+        button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+    script.
+        function cancel() {
+            // Go back to the home page for the house collection
+            window.location.href='/house'
+        }
+    script.
+        function deleteOnid() {
+            console.log("starting delete")
+            // delete first
+            fetch(actionid, {
+                method: 'DELETE'
+            }).then((resp) => {
+                return resp.json(); // or resp.text() or whatever the server sends
+            }).then((body) => {
+                alert("Delete succeded")
+                window.location.href='/house'
+                // TODO handle body
+            }).catch((error) => {
+                // TODO handle error
+                alert("Delete failed " + error )
+            });
+        }

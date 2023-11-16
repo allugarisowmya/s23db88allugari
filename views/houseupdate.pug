@@ -1,47 +1,48 @@
 extends layout
 block content
-  h1= title
-  - let houseid = toShow._id
-  - let houseName = toShow.houseName 
-  - let price = toShow.price
-  - let description = toShow.description
-  div.row(class='mb-2')
-    div.mr-1 ID is
-    div #{houseid}
-  - let actionid = "/resource/house/" + houseid
-  form(id='HouseForm', action= actionid, method="PUT")
-    div.form-group
-      label.houseAttr(for='houseName') houseName
-      input#houseName(type='text', name='houseName', value= houseName )
-    div.form-group
-      label.houseAttr(for='description')  housedescription
-      input#description(type='text', name='description', value= description  )
-    div.form-group
-      label.houseAttr(for='price') houseprice 
-      input#price(type='number', name='price',step='any', value= price )
-    input(type="submit")
-  script.
-    document.forms['HouseForm'].addEventListener('submit', (event) => {
-      event.preventDefault();
-      // TODO do something here to show user that form is being submitted
-      fetch(event.target.action, {
-        method: 'PUT',
-        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
-      }).then((resp) => {
-        if(resp.ok){
-            alert ("House Updated Successfully")
-            document.getElementById('HouseForm').reset()
-        }
-        else {
-            alert (" File to Update house")
-        }
-      }).then((body) => {
-        console.log(body)
-        // TODO handle body
-      }).catch((error) => {
-        // TODO handle error
-        alert("Update failed " + error )
-      });
-    });
- 
- 
+    h1= title
+    if (toShow == null)
+        h2 No instance to update
+    else
+        - let houseid = toShow._id
+        - let houseName = toShow.houseName 
+        - let price = toShow.price
+        - let description = toShow.description
+        div.row(class='mb-2')
+            div.mr-1 ID is
+            div #{houseid}
+        - let actionid = "/resource/house/" + houseid
+        form(id='HouseForm', action= actionid, method="PUT")
+            div.form-group
+                label.houseAttr(for='houseName') houseName
+                input#houseName(type='text' name='houseName', value= houseName )
+            div.form-group
+                label.houseAttr(for='description') housedescription
+                input#description(type='text' name='description', value= description  )
+            div.form-group
+                label.houseAttr(for='price') houseprice 
+                input#price(type='number' name='price' step='any', value= price )
+            input(type="submit")
+        script.
+            document.forms['HouseForm'].addEventListener('submit', (event) => {
+                event.preventDefault();
+                // TODO do something here to show the user that the form is being submitted
+                fetch(event.target.action, {
+                    method: 'PUT',
+                    body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+                }).then((resp) => {
+                    if(resp.ok){
+                        alert("House Updated Successfully")
+                        document.getElementById('HouseForm').reset()
+                    }
+                    else {
+                        alert("File to Update house")
+                    }
+                }).then((body) => {
+                    console.log(body)
+                    // TODO handle body
+                }).catch((error) => {
+                    // TODO handle error
+                    alert("Update failed " + error )
+                });
+            });
