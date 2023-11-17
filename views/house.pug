@@ -1,25 +1,42 @@
 
+//- extends layout
+//- block content
+//-   h1= title
+//-   p Welcome to the #{title} page.
+//-   br
+//-   br
+//-   -
+//-     let results = [
+//-       { houseName: "villa", price: 101.99, description: "5 bed rooms" },
+//-       { houseName: "apartments", price: 190.99, description: "4 bed rooms" },
+//-       { houseName: "Group house", price: 250.49, description: "3 bed rooms" }
+//-     ]
+//-   div.container-fluid
+//-     div.row
+//-       each item, index in results
+//-         div.col-sm-2(onclick=`buy(${index})`)
+//-           h4 house : #{item.houseName}
+//-           p Price: $#{item.price}
+//-           p Description: #{item.description}
+  
+//-   script.
+//-     function buy(index) {
+//-       alert(`You purchased item ${index+1}.`);
+//-     }          
 extends layout
 block content
-  h1= title
-  p Welcome to the #{title} page.
-  br
-  br
-  -
-    let results = [
-      { houseName: "villa", price: 101.99, description: "5 bed rooms" },
-      { houseName: "apartments", price: 190.99, description: "4 bed rooms" },
-      { houseName: "Group house", price: 250.49, description: "3 bed rooms" }
-    ]
-  div.container-fluid
-    div.row
-      each item, index in results
-        div.col-sm-2(onclick=`buy(${index})`)
-          h4 house : #{item.houseName}
-          p Price: $#{item.price}
-          p Description: #{item.description}
-  
-  script.
-    function buy(index) {
-      alert(`You purchased item ${index+1}.`);
-    }          
+ h1= title
+ - let items = results;
+   each item in items
+    - let destination = `dispatch("/house/update?id=${item._id}")`
+      div
+       p houseName  - #{item.houseName}
+       p price  - #{item.price}
+       p description - #{item.description}
+       button.btn( class="btn-primary ml-1", onclick= destination) Update
+       br
+       br
+ script.
+  function dispatch(path){
+   window.location.href=path
+  }
