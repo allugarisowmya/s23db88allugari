@@ -1,18 +1,13 @@
 extends layout
 
 block content
-  h1= title
-  p I am Allugari Sowmya Reddy, Living in Maryville 
-  button(type="button", class="btn btn-primary",id="myButton", onclick="goFaster()") Press Me
-  br
-  br
-  div(id="faster") Increase the speed
-  a(href = "/house") View houses  details
-  script.
-    var mph = 20;
-    var change = 1;
-    function goFaster(){
-      mph = mph + change;
-      change = change++;
-      document.getElementById('faster').textContent = `MPH ${mph} with change ${change}`
-    }
+  if (!user)
+    a(href="/login") Login
+    br
+    a(href="/register") Register
+
+  if (user)
+    p You are currently logged in as #{user.username}
+    a(href="/house") Take me to house 
+    br
+    a(href="/logout") Logout
