@@ -23,7 +23,5 @@ router.get('/update', secured, house_controlers.house_update_Page);
 /* GET delete house page */
 router.get('/delete', secured, house_controlers.house_delete_Page);
 
-
-
 module.exports = router;
 
